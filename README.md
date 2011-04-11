@@ -3,6 +3,7 @@ IOS Configuration Fetch Utility
 
 Usage
 -----
+<pre>
 Usage: optest.py [options]
 
 Options:
@@ -20,7 +21,7 @@ Options:
                         RSA Private Keyfile for use with SSH connection
     --timeout=TIMEOUT   Optional timeout value for use with older, slower
                         hardware
-
+</pre>
 Purpose
 -------
 

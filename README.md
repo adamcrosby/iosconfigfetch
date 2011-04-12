@@ -4,7 +4,7 @@ IOS Configuration Fetch Utility
 Usage
 -----
 <pre>
-Usage: optest.py [options]
+Usage: iosconfigfetch.py [options]
 
 Options:
   -h, --help            show this help message and exit
@@ -17,19 +17,26 @@ Options:
                         Protocol for console connection
 
   Misc. Options:
-    --keyfile=SSHKEYFILE
-                        RSA Private Keyfile for use with SSH connection
+    --keyfile=KEYFILE   RSA Private Keyfile for use with SSH connection
     --timeout=TIMEOUT   Optional timeout value for use with older, slower
                         hardware
+    -s                  Disable printed output/status messages, and only
+                        return router configuration (for scripting)
+    --config=CONFS      List of items to retrieve: version, running-config,
+                        startup-config, or all items - defaults to only
+                        running-config
+
 </pre>
 Purpose
 -------
-
-Details
--------
+This script fetches configurations and version information from routers running Cisco IOS.
+It should be useful either as a standalone tool, or as a single purpose tool to be included in automation workflows.
 
 Requirements
 ------------
+Requires EXScript (https://github.com/knipknap/exscript)
 
 License
 -------
+(c) 2011 Adam Crosby 
+The code is licensed under: http://creativecommons.org/licenses/by-nc-sa/3.0/

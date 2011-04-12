@@ -7,8 +7,11 @@ from Exscript.Account import Account
 
 confChoices = ['version', 'startup-config', 'running-config', 'all-config', 'all']
 
-def get_configs_ssh(account, host):
-	conn = SSH2()
+def get_configs_ssh(account, host, t_out=30):
+	if t_out == 30:
+		conn = SSH2()
+	else:
+		conn = SSH2(timeout=t_out)
 	conn.connect(host)
 	conn.login(account)
 	conn.execute('term length 0')
@@ -32,7 +35,7 @@ def get_configs_ssh(account, host):
 def ssh_with_password(host, username, password, enablePassword, timeout, confs):
 
 	account = Account(name=username, password=password, password2=enablePassword)
-	configs = get_configs_ssh(account, host)
+	configs = get_configs_ssh(account, host, timeout)
 
 
 	if confs == 'version':

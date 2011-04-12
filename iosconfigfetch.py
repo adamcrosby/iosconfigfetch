@@ -8,7 +8,7 @@ from ioslib import ssh_with_password, ssh_with_keyfile, telnet
 def parse_options():
 	parser = OptionParser()
 
-	parser.set_defaults(timeout=60, connectionType="ssh", keyfile=None, confs="running-config")
+	parser.set_defaults(timeout=30, connectionType="ssh", keyfile=None, confs="running-config")
 	protoChoices = ["ssh", "telnet"]
 	confChoices = ['version', 'startup-config', 'running-config', 'all-config', 'all']
 	parser.add_option("--host", dest="host", help="Device IP or hostname to connect to.")

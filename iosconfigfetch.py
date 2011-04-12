@@ -8,8 +8,9 @@ from ioslib import ssh_with_password, ssh_with_keyfile, telnet
 def parse_options():
 	parser = OptionParser()
 
-	parser.set_defaults(timeout=60, connectionType="ssh", keyfile=None)
+	parser.set_defaults(timeout=60, connectionType="ssh", keyfile=None, confs="running-config")
 	protoChoices = ["ssh", "telnet"]
+	confChoices = ['version', 'startup-config', 'running-config', 'all-config', 'all']
 	parser.add_option("--host", dest="host", help="Device IP or hostname to connect to.")
 	parser.add_option("--user", dest="username", help="Authentication username (i.e. remote user name).")
 	parser.add_option("--pass", dest="password", help="Authentication password.")
@@ -20,6 +21,7 @@ def parse_options():
 	group.add_option("--keyfile", dest="keyfile", help="RSA Private Keyfile for use with SSH connection")
 	group.add_option("--timeout", type="int", dest="timeout", help="Optional timeout value for use with older, slower hardware")
 	group.add_option("-s", action="store_true", dest="silent", help="Disable printed output/status messages, and only return router configuration (for scripting)")
+	group.add_option("--config", type="choice", dest="confs", choices=confChoices, help="List of items to retrieve: version, running-config, startup-config, or all items - defaults to only running-config")
 
 	parser.add_option_group(group)
 
@@ -53,16 +55,16 @@ if __name__ == "__main__":
 			if options.keyfile == None:
 				print "\tPassword: %s" % options.password
 				print "\tUsing enable password: %s" % options.enablePassword
-				ssh_with_password(options.host, options.username, options.password, options.enablePassword, options.timeout)
+				ssh_with_password(options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 			elif (options.password == "") or (options.password == None):
 				print "\tKeyfile: %s" % options.keyfile
 				print "\tUsing enable password: %s" % options.enablePassword
-				ssh_with_keyfile(options.host, options.username, options.keyfile, options.enablePassword, options.timeout)
+				ssh_with_keyfile(options.host, options.username, options.keyfile, options.enablePassword, options.timeout, options.confs)
 			else:
 				print "\tKeyfile and password both supplied, defaulting to keyfile."
 				print "\tKeyfile: %s" % options.keyfile
 				print "\tUsing enable password: %s" % options.enablePassword
-				ssh_with_keyfile(options.host, options.username, options.keyfile, options.enablePassword, options.timeout)
+				ssh_with_keyfile(options.host, options.username, options.keyfile, options.enablePassword, options.timeout, options.confs)
 
 
 		elif options.connectionType == "telnet":
@@ -71,7 +73,7 @@ if __name__ == "__main__":
 			print "\tUsername: %s" % options.username
 			print "\tPassword: %s" % options.password
 			print "\tUsing enable password: %s" % options.enablePassword
-			telnet(options.host, options.username, options.password, options.enablePassword, options.timeout)
+			telnet(options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 		else:
 		# Error, bad protocol type, shouldnt' get here
 			print "Incorrect protocol specified."

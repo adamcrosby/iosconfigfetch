@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#
+# (c) 2011 Adam Crosby
+# Licensed under: http://creativecommons.org/licenses/by-nc-sa/3.0/
+#
 import sys
 from optparse import OptionParser
 from optparse import OptionGroup

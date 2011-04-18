@@ -25,33 +25,39 @@ from Exscript.Account import Account
 confChoices = ['version', 'startup-config', 'running-config', 'all-config', 'all']
 
 def get_configs(proto, account, host, t_out=30):
-	if proto == "ssh":
-		if t_out == 30:
-			conn = SSH2()
-		else:
-			conn = SSH2(timeout=t_out)
-	elif proto == "telnet":
-		conn = Telnet()
-	conn.set_driver('ios')
-	conn.connect(host)
-	conn.login(account)
-	conn.execute('term length 0')
-	conn.execute('term width 0')
-	conn.send('enable\r')
-	conn.app_authorize(account)
-	conn.execute('show version')
-	showver = conn.response.split('\r\n')
-	conn.execute('show startup-config')
-	showstart = conn.response.split('\r\n')
-	conn.execute('show running-config all')
-	showrun = conn.response.split('\r\n')
-	showrun.pop()
-	showstart.pop()
-	showver.pop()
-	outputbuffer = {'version':showver,
-			'startup-config':showstart,
-			'running-config':showrun}
-	return outputbuffer
+	try:
+		if proto == "ssh":
+			if t_out == 30:
+				conn = SSH2()
+			else:
+				conn = SSH2(timeout=t_out)
+		elif proto == "telnet":
+			conn = Telnet()
+		conn.set_driver('ios')
+		conn.connect(host)
+		conn.login(account)
+		conn.execute('term length 0')
+		conn.execute('term width 0')
+		conn.send('enable\r')
+		conn.app_authorize(account)
+		conn.execute('show version')
+		showver = conn.response.split('\r\n')
+		conn.execute('show startup-config')
+		showstart = conn.response.split('\r\n')
+		conn.execute('show running-config all')
+		showrun = conn.response.split('\r\n')
+		showrun.pop()
+		showstart.pop()
+		showver.pop()
+		outputbuffer = {'version':showver,
+				'startup-config':showstart,
+				'running-config':showrun,
+				'error': None}
+		return outputbuffer
+
+	except Exception:
+		outputbuffer = {'version': "", 'startup-config': "", 'running-config':"", 'error': True}
+		return outputbuffer
 
 def get_configs_with_password(proto, host, username, password, enablePassword, timeout, confs):
 
@@ -61,7 +67,9 @@ def get_configs_with_password(proto, host, username, password, enablePassword, t
 	elif proto == "telnet":
 		configs = get_configs("telnet", account, host, timeout)
 	
-
+	if configs['error']: 
+		print "Error retrieving information from the router.  Please check credentials and connectivity."	
+		sys.exit(-1)
 
 	if confs == 'version':
 		for line in configs['version']:

@@ -21,7 +21,7 @@ import sys
 from optparse import OptionParser
 from optparse import OptionGroup
 
-from ioslib import ssh_with_password, ssh_with_keyfile, telnet
+from ioslib import get_configs_with_password, ssh_with_keyfile
 
 def parse_options():
 	parser = OptionParser()
@@ -73,7 +73,7 @@ if __name__ == "__main__":
 			if options.keyfile == None:
 				print "\tPassword: %s" % options.password
 				print "\tUsing enable password: %s" % options.enablePassword
-				ssh_with_password(options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
+				get_configs_with_password("ssh", options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 			elif (options.password == "") or (options.password == None):
 				print "\tKeyfile: %s" % options.keyfile
 				print "\tUsing enable password: %s" % options.enablePassword
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 			print "\tUsername: %s" % options.username
 			print "\tPassword: %s" % options.password
 			print "\tUsing enable password: %s" % options.enablePassword
-			telnet(options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
+			get_configs_with_password("telnet", options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 		else:
 		# Error, bad protocol type, shouldnt' get here
 			print "Incorrect protocol specified."
@@ -110,11 +110,11 @@ if __name__ == "__main__":
 			# Figure out if SSH connection is goign to use a username/password
 			# or a keyfile.  If user supplies both, default to the keyfile
 			if options.keyfile == None:
-				ssh_with_password(options.host, options.username, options.password, options.enablePassword, options.timeout)
+				get_configs_with_password("ssh", options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 			else: 
 				ssh_with_keyfile(options.host, options.username, options.keyfile, options.enablePassword, options.timeout)
 		elif options.connectionType == "telnet":
-			telnet(options.host, options.username, options.password, options.enablePassword, options.timeout)
+			get_configs_with_password("telnet", options.host, options.username, options.password, options.enablePassword, options.timeout, options.confs)
 		else:
 		# Error, bad protocol type, shouldnt' get here
 			sys.exit(-1)

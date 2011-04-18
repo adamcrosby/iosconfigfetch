@@ -18,16 +18,21 @@
 #
 import sys
 from Exscript.protocols import SSH2
+from Exscript.protocols import Telnet
 from Exscript.Account import Account
 
 
 confChoices = ['version', 'startup-config', 'running-config', 'all-config', 'all']
 
-def get_configs_ssh(account, host, t_out=30):
-	if t_out == 30:
-		conn = SSH2()
-	else:
-		conn = SSH2(timeout=t_out)
+def get_configs(proto, account, host, t_out=30):
+	if proto == "ssh":
+		if t_out == 30:
+			conn = SSH2()
+		else:
+			conn = SSH2(timeout=t_out)
+	elif proto == "telnet":
+		conn = Telnet()
+	conn.set_driver('ios')
 	conn.connect(host)
 	conn.login(account)
 	conn.execute('term length 0')
@@ -48,10 +53,14 @@ def get_configs_ssh(account, host, t_out=30):
 			'running-config':showrun}
 	return outputbuffer
 
-def ssh_with_password(host, username, password, enablePassword, timeout, confs):
+def get_configs_with_password(proto, host, username, password, enablePassword, timeout, confs):
 
 	account = Account(name=username, password=password, password2=enablePassword)
-	configs = get_configs_ssh(account, host, timeout)
+	if proto == "ssh":
+		configs = get_configs("ssh", account, host, timeout)
+	elif proto == "telnet":
+		configs = get_configs("telnet", account, host, timeout)
+	
 
 
 	if confs == 'version':
@@ -86,8 +95,4 @@ def ssh_with_keyfile(host, username, keyfile, enablePassword, timeout, startupco
 	print "SSH with keyfiles is not yet implemented."
 	sys.exit(-1)
 	#TODO impelement ssh keyfile support
-def telnet(host, username, password, enablePassword, timeout, startupconf):
-	print "Telnet support is not yet implemented."
-	sys.exit(-1)
-	#TODO implement telnetlib support
 

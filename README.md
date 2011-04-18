@@ -45,6 +45,10 @@ Retrieve the startup and running configurations via SSH
 
 		python iosconfigfetch.py --host=myrouter.local --user=admin --pass=t3stp4ss --enable=abc123! --config=all-config 
 
+Retrieve the startup configuration via SSH and dump it to a file  
+
+		python iosconfigfetch.py --host=myrouter.local --user=admin --pass=t3stp4ss --enable=abc123! --config=all-config -s > startup-config.ios
+
 Requirements
 ------------
 Requires EXScript (https://github.com/knipknap/exscript)

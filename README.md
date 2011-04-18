@@ -33,12 +33,15 @@ It should be useful either as a standalone tool, or as a single purpose tool to 
 Example
 -------
 Retrieve the running configuration via SSH:  
+
 		python iosconfigfetch.py --host=10.0.1.1 --user=netadmin --pass=ciscopass --enable=supercisco 
 
 Retrieve the version via telnet:  
+
 		python iosconfigfetch.py --host=10.0.55.3 --user=netman --pass=p4ssw0rd --enable=SEkr3T! --config=version -p telnet
 
 Retrieve the startup and running configurations via SSH  
+
 		python iosconfigfetch.py --host=myrouter.local --user=admin --pass=t3stp4ss --enable=abc123! --config=all-config 
 
 Requirements

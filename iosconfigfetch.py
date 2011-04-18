@@ -22,7 +22,7 @@ def parse_options():
 	parser.add_option("-p", "--protocol", type="choice", dest="connectionType", choices=protoChoices, help="Protocol for console connection")
 
 	group = OptionGroup(parser, "Misc. Options")
-	group.add_option("--keyfile", dest="keyfile", help="RSA Private Keyfile for use with SSH connection")
+	group.add_option("--keyfile", dest="keyfile", help="RSA Private Keyfile for use with SSH connection (IOS 15+ only)")
 	group.add_option("--timeout", type="int", dest="timeout", help="Optional timeout value for use with older, slower hardware")
 	group.add_option("-s", action="store_true", dest="silent", help="Disable printed output/status messages, and only return router configuration (for scripting)")
 	group.add_option("--config", type="choice", dest="confs", choices=confChoices, help="List of items to retrieve: version, running-config, startup-config, or all items - defaults to only running-config")

@@ -16,7 +16,7 @@ Usage
 								Protocol for console connection
 
 		  Misc. Options:
-			--keyfile=KEYFILE   RSA Private Keyfile for use with SSH connection
+			--keyfile=KEYFILE   RSA Private Keyfile for use with SSH connection (IOS 15+ only)
 			--timeout=TIMEOUT   Optional timeout value for use with older, slower
 								hardware
 			-s                  Disable printed output/status messages, and only

@@ -27,8 +27,9 @@ Usage
 
 Purpose
 -------
-This script fetches configurations and version information from routers running Cisco IOS.
-It should be useful either as a standalone tool, or as a single purpose tool to be included in automation workflows.
+This script fetches configurations and version information from routers running Cisco IOS.  
+It should be useful either as a standalone tool, or as a single purpose tool to be included in automation workflows.  
+Multiple configuration items are separated by 40 '*' characters in a row on a line of their own.  
 
 Example
 -------
